@@ -1,0 +1,36 @@
+{
+  "name": "bun-react-template-custom",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "scripts": {
+    "generate-version": "bun scripts/generate-version.js",
+    "setup:hooks": "mkdir -p .git/hooks && cp scripts/hooks/commit-msg .git/hooks/commit-msg && chmod +x .git/hooks/commit-msg",
+    "postinstall": "bun run setup:hooks",
+    "commit": "npx cz",
+    "dev": "bun --hot src/index.tsx --define:process.env.NODE_ENV='\"development\"'",
+    "build": "bun build ./src/index.html --outdir=dist --sourcemap --target=browser --minify --define:process.env.NODE_ENV='\"production\"' --env='BUN_PUBLIC_*' && bun generate-version",
+    "build:spa": "bun build ./src/frontend.tsx --outdir ./dist --sourcemap --target=browser --minify --define:process.env.NODE_ENV='\"production\"' --env='BUN_PUBLIC_*' && bun generate-version",
+    "start": "NODE_ENV=production bun src/index.tsx",
+    "check": "bunx --bun biome check --write ./src"
+  },
+  "dependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.6",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@types/bun": "latest",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0"
+  }
+}

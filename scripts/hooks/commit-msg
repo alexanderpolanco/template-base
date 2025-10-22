@@ -1,0 +1,17 @@
+#!/bin/sh
+# Hook versionado (V1.0.0)
+
+# Configurar PATH para Windows si es necesario
+case "$(uname -s)" in
+    MINGW*|MSYS*|CYGWIN*)
+        # Windows: agregar rutas comunes de bun
+        export PATH="/c/nvm4w/nodejs:$PATH"
+        export PATH="$HOME/.bun/bin:$PATH"
+        export PATH="/c/Users/$USERNAME/.bun/bin:$PATH"
+        ;;
+esac
+
+# Ejecutar las validaciones
+bun check
+echo "[CommitLint] Validando mensaje de commit..."
+bunx commitlint --edit "$1"
